@@ -7,6 +7,8 @@ inicioPuente = 10
 largoPuente = 20
 
 cantVacas = 5
+semaforoVacas= threading.Semaphore(1)
+semaforoLlegada = threading.Semaphore(0)
 
 class Vaca(threading.Thread):
   def __init__(self):
@@ -16,6 +18,15 @@ class Vaca(threading.Thread):
 
   def avanzar(self):
     time.sleep(1-self.velocidad)
+    if(self.posicion==10):
+      semaforoVacas.acquire()
+    
+    if(self.posicion==30):
+      semaforoVacas.release()
+
+    if(self.posicion==50):
+      self.posicion = 0
+
     self.posicion += 1
 
   def dibujar(self):
@@ -24,6 +35,8 @@ class Vaca(threading.Thread):
   def run(self):
     while(True):
       self.avanzar()
+     
+
 
 vacas = []
 for i in range(cantVacas):
@@ -46,3 +59,5 @@ while(True):
     v.dibujar()
   dibujarPuente()
   time.sleep(0.2)
+
+  
