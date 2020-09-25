@@ -5,6 +5,7 @@ import threading
 
 inicioPuente = 10
 largoPuente = 20
+ofset = 20
 
 cantVacas = 5
 semaforoVacas= threading.Semaphore(1)
@@ -18,13 +19,15 @@ class Vaca(threading.Thread):
 
   def avanzar(self):
     time.sleep(1-self.velocidad)
-    if(self.posicion==10):
+    if self.posicion==inicioPuente-3:
       semaforoVacas.acquire()
+      
     
-    if(self.posicion==30):
+    if(self.posicion==inicioPuente+largoPuente):
       semaforoVacas.release()
+      
 
-    if(self.posicion==50):
+    if(self.posicion==inicioPuente+largoPuente+ofset):
       self.posicion = 0
 
     self.posicion += 1
